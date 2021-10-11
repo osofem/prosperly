@@ -4,7 +4,7 @@ Wrapper for the telegram bot API. Full documentation coming soon!
 ## USAGE
     //Initiating prosperly
     const Prosperly = require('prosperly');
-    const bot = new Prosperly('YOUR-BOT-TOKEN', {url: 'YOUR-WEBHOOK-URL'});
+    const bot = new Prosperly({botToken: 'YOUR-BOT-TOKEN', {url: 'YOUR-WEBHOOK-URL'}, serverless: false});
 
 	//listen for message
 	bot.on('message', (data)=>{
@@ -35,7 +35,7 @@ Wrapper for the telegram bot API. Full documentation coming soon!
 	* myChatMember, chatMember, and error
 	*/
 	
-	//listen for message
+	//listen for error
 	bot.on('error', (error)=>{
 		console.log('An error occurred: ', error);
 	});
