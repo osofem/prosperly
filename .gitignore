@@ -3,6 +3,3 @@
 
 # Ignore any zip files
 *.zip
-
-# Ignore src folder
-**/src
