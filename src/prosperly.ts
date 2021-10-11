@@ -12,7 +12,7 @@ import https from 'https';
 
 
 export default class Prosperly extends Events{
-    #API_URL;
+    #API_URL; version;
 
     /**
      * Constructor. Declares bot token and start building API URL. Setup webhook if webhookParams is specified and server for listening if serverless is false
@@ -20,17 +20,18 @@ export default class Prosperly extends Events{
      * @param webhookParams webhook parameter that specify url and other information
      * @param serverless specify if the app is to be serverless. Default is false (that is a server will be initialiated up). Notice if true then app can't receive event messages 
      */
-    constructor(botToken: string, webhookParams?: SetWebhookParams, serverless = false){
+    constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
-        this.#API_URL = "https://api.telegram.org/bot" + botToken + "/";
+        this.version = '0.0.5';
+        this.#API_URL = "https://api.telegram.org/bot" + contents.botToken + "/";
 
         //setup webhook and server for listening
-        if(typeof(webhookParams) != 'undefined'){
+        if(typeof(contents.webhookParams) != 'undefined'){
             //setup webhook
-            this.#setWebhook2(webhookParams).then(()=>{
-                if(!serverless){
+            this.#setWebhook2(contents.webhookParams).then(()=>{
+                if(!contents.serverless && contents.webhookParams){
                     //webhook successful so setup server
-                    this.#serverSetup(webhookParams);
+                    this.#serverSetup(contents.webhookParams);
                 }
             }).catch((error)=>{
                 //error occured
