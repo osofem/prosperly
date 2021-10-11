@@ -1173,16 +1173,19 @@ export default class Prosperly extends Events{
     }
 
     async #submitPOSTRequest(url: string, contents: any){
-        //bent
-        const bent = require('bent');
-        const post = bent('POST', 'string', {'Content-Type': 'multipart/form-data'});
+        const telegramURL = new URL(url);
+        const urlHostname = telegramURL.hostname;
+        const urlPathname = telegramURL.pathname;
+        const urlSearch = telegramURL.search;
+
         //form data
         const FormData = require('form-data');
-        //To read files
-        const fs = require('fs');
-
         let form = new FormData();
 
+        //To read files
+        const fs = require('fs');
+        
+        //append all data to form
         for(let [key, content] of Object.entries(contents)){
             //check type
             if(key === 'photo' || key === 'audio' || key === 'document' || key === 'video' || key === 'animation' || key === 'voice' || key === 'video_note' || key === 'thumb'){
@@ -1199,9 +1202,45 @@ export default class Prosperly extends Events{
             else{
                 form.append(key, content);
             }
-            
         }
-        return await post(url, form, form.getHeaders());
+        
+        //build up the https options
+        const options = {
+            hostname: urlHostname,
+            path: urlPathname+urlSearch,
+            method: 'POST',
+            headers: form.getHeaders()
+        };
+
+        //create a promise for the callback function 
+        const promise = new Promise((resolve, reject)=>{
+
+            //request for the telegram data
+            const req = https.request(options, (res) => {
+                let chunks: any = [];
+                //store received data in chunks
+                res.on('data', chunk => {
+                    chunks.push(chunk);
+                });
+    
+                //data completely received, convert chunks to buffer
+                res.on('end', ()=>{
+                    let data = Buffer.concat(chunks).toString();
+                    resolve(data);
+                });
+            });
+    
+            //write form data to request
+            form.pipe(req);
+    
+            req.on('error', error => {
+                reject(error);
+            });
+
+            req.end(); //end request
+        });
+        
+        return promise;
     }
 
     async #serverSetup(webhookParams: SetWebhookParams){
