@@ -8,6 +8,7 @@
 import Events from 'events';
 import http from 'http';
 import {URL} from 'url';
+import https from 'https';
 
 
 export default class Prosperly extends Events{
@@ -1130,9 +1131,44 @@ export default class Prosperly extends Events{
     /// DO NOT EDIT ANYTHING BELOW THIS LINE
     /* ++++++++++++++++++++++++++++++ */
     async #submitGETRequest(url: string){
-        const bent = require('bent');
-        const get = bent('string');
-        return await get(url);
+        const telegramURL = new URL(url);
+        const urlHostname = telegramURL.hostname;
+        const urlPathname = telegramURL.pathname;
+        const urlSearch = telegramURL.search;
+        
+        //build up the https options
+        const options = {
+            hostname: urlHostname,
+            path: urlPathname+urlSearch,
+            method: 'GET'
+        };
+
+        //create a promise for the callback function 
+        const promise = new Promise((resolve, reject)=>{
+
+            //request for the telegram data
+            const req = https.request(options, (res) => {
+                let chunks: any = [];
+                //store received data in chunks
+                res.on('data', chunk => {
+                    chunks.push(chunk);
+                });
+                //data completely received, convert chunks to buffer
+                res.on('end', ()=>{
+                    req.end(); // end request
+                    let data = Buffer.concat(chunks).toString();
+                    //resolve the promise
+                    resolve(data);
+                });
+            });
+            
+            //error occurs, reject the promise
+            req.on('error', error => {
+                req.end(); // end request
+                reject(error);
+            });
+        });
+        return await promise;
     }
 
     async #submitPOSTRequest(url: string, contents: any){
