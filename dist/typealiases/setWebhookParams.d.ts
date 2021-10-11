@@ -1,6 +1,6 @@
 export declare type SetWebhookParams = {
     url: string;
-    certificate?: string[];
+    certificate?: string;
     ip_address?: string;
     max_connections?: number;
     allowed_updates?: string[];

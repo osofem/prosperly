@@ -1,6 +1,6 @@
 /*
  * Based on Telegram Bot API 5.3.
- * Prosperly 0.0.5
+ * Prosperly 0.0.6
  * Authour: Oluwafemi Oso (osofem)
  * Date: 11th October 2021
  */
@@ -22,7 +22,7 @@ export default class Prosperly extends Events{
      */
     constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
-        this.version = '0.0.5';
+        this.version = '0.0.6';
         this.#API_URL = "https://api.telegram.org/bot" + contents.botToken + "/";
 
         //setup webhook and server for listening
@@ -83,24 +83,8 @@ export default class Prosperly extends Events{
     * @return Promise of True on success.
     * */
     async #setWebhook2(contents: SetWebhookParams){
-        let url: string = this.#API_URL + "setWebhook?";
-        let queryString: string[] = [];
-        
-        for(let [key, content] of Object.entries(contents)){
-            if(key == 'allowed_updates'){
-                queryString.push(key + "=" + encodeURIComponent(JSON.stringify(content)));
-            }
-            else if(key == 'certificate'){
-                //Have to look into this TODO  
-            }
-            else{
-                queryString.push(key + "=" + encodeURIComponent(content.toString()));
-            }
-        }
-
-        // join queries together
-        url += queryString.join("&");
-        return this.#submitGETRequest(url);
+        let url = this.#API_URL + "setWebhook";
+        return this.#submitPOSTRequest(url, contents);
     }
 
     /**
@@ -1188,7 +1172,7 @@ export default class Prosperly extends Events{
         //append all data to form
         for(let [key, content] of Object.entries(contents)){
             //check type
-            if(key === 'photo' || key === 'audio' || key === 'document' || key === 'video' || key === 'animation' || key === 'voice' || key === 'video_note' || key === 'thumb'){
+            if(key === 'photo' || key === 'audio' || key === 'document' || key === 'video' || key === 'animation' || key === 'voice' || key === 'video_note' || key === 'thumb' || key === 'certificate'/*for setWebhook*/){
                 //Check if I can read file from local computer
                 if(fs.existsSync(content)){ 
                     form.append(key, fs.createReadStream(content)); //send file content to telegram
@@ -1196,7 +1180,7 @@ export default class Prosperly extends Events{
                 }
             }
 
-            if(key === 'caption_entities' || key === 'reply_markup' || key === 'media'){
+            if(key === 'caption_entities' || key === 'reply_markup' || key === 'media' || key === 'allowed_updates'){
                 form.append(key, JSON.stringify(content));
             }
             else{

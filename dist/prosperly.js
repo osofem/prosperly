@@ -1,7 +1,7 @@
 "use strict";
 /*
  * Based on Telegram Bot API 5.3.
- * Prosperly 0.0.5
+ * Prosperly 0.0.6
  * Authour: Oluwafemi Oso (osofem)
  * Date: 11th October 2021
  */
@@ -45,7 +45,7 @@ class Prosperly extends events_1.default {
         super();
         _Prosperly_instances.add(this);
         _Prosperly_API_URL.set(this, void 0);
-        this.version = '0.0.5';
+        this.version = '0.0.6';
         __classPrivateFieldSet(this, _Prosperly_API_URL, "https://api.telegram.org/bot" + contents.botToken + "/", "f");
         //setup webhook and server for listening
         if (typeof (contents.webhookParams) != 'undefined') {
@@ -1109,22 +1109,8 @@ class Prosperly extends events_1.default {
 exports.default = Prosperly;
 _Prosperly_API_URL = new WeakMap(), _Prosperly_instances = new WeakSet(), _Prosperly_setWebhook2 = function _Prosperly_setWebhook2(contents) {
     return __awaiter(this, void 0, void 0, function* () {
-        let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "setWebhook?";
-        let queryString = [];
-        for (let [key, content] of Object.entries(contents)) {
-            if (key == 'allowed_updates') {
-                queryString.push(key + "=" + encodeURIComponent(JSON.stringify(content)));
-            }
-            else if (key == 'certificate') {
-                //Have to look into this TODO  
-            }
-            else {
-                queryString.push(key + "=" + encodeURIComponent(content.toString()));
-            }
-        }
-        // join queries together
-        url += queryString.join("&");
-        return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "setWebhook";
+        return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitPOSTRequest).call(this, url, contents);
     });
 }, _Prosperly_submitGETRequest = function _Prosperly_submitGETRequest(url) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -1176,14 +1162,14 @@ _Prosperly_API_URL = new WeakMap(), _Prosperly_instances = new WeakSet(), _Prosp
         //append all data to form
         for (let [key, content] of Object.entries(contents)) {
             //check type
-            if (key === 'photo' || key === 'audio' || key === 'document' || key === 'video' || key === 'animation' || key === 'voice' || key === 'video_note' || key === 'thumb') {
+            if (key === 'photo' || key === 'audio' || key === 'document' || key === 'video' || key === 'animation' || key === 'voice' || key === 'video_note' || key === 'thumb' || key === 'certificate' /*for setWebhook*/) {
                 //Check if I can read file from local computer
                 if (fs.existsSync(content)) {
                     form.append(key, fs.createReadStream(content)); //send file content to telegram
                     continue;
                 }
             }
-            if (key === 'caption_entities' || key === 'reply_markup' || key === 'media') {
+            if (key === 'caption_entities' || key === 'reply_markup' || key === 'media' || key === 'allowed_updates') {
                 form.append(key, JSON.stringify(content));
             }
             else {
