@@ -1,6 +1,6 @@
 /*
  * Based on Telegram Bot API 5.3.
- * Prosperly 0.0.4
+ * Prosperly 0.0.5
  * Authour: Oluwafemi Oso (osofem)
  * Date: 11th October 2021
  */
