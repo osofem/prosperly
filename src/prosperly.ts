@@ -18,7 +18,7 @@ export default class Prosperly extends Events{
      * Constructor. Declares bot token and start building API URL. Setup webhook if webhookParams is specified and server for listening if serverless is false
      * @param botToken bot token gotten from \@BotFather
      * @param webhookParams webhook parameter that specify url and other information
-     * @param serverless specify if the app is to be serverless. Default is false (that is a server will be initialiated up). Notice if true then app can't receive event messages 
+     * @param serverless specify if the app is to be serverless. Default is false (that is a server will be initialiated up). Note if true then app can't receive event messages 
      */
     constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
@@ -1156,7 +1156,6 @@ export default class Prosperly extends Events{
                 });
                 //data completely received, convert chunks to buffer
                 res.on('end', ()=>{
-                    req.end(); // end request
                     let data = Buffer.concat(chunks).toString();
                     //resolve the promise
                     resolve(data);
@@ -1165,11 +1164,12 @@ export default class Prosperly extends Events{
             
             //error occurs, reject the promise
             req.on('error', error => {
-                req.end(); // end request
                 reject(error);
             });
+
+            req.end(); // end request
         });
-        return await promise;
+        return promise;
     }
 
     async #submitPOSTRequest(url: string, contents: any){
