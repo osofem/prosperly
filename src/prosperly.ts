@@ -1115,7 +1115,7 @@ export default class Prosperly extends Events{
     /* ++++++++++++++++++++++++++++++ */
     /// DO NOT EDIT ANYTHING BELOW THIS LINE
     /* ++++++++++++++++++++++++++++++ */
-    async #submitGETRequest(url: string){
+    async #submitGETRequest(url: string): Promise<string>{
         const telegramURL = new URL(url);
         const urlHostname = telegramURL.hostname;
         const urlPathname = telegramURL.pathname;
@@ -1153,10 +1153,10 @@ export default class Prosperly extends Events{
 
             req.end(); // end request
         });
-        return promise;
+        return promise as Promise<string>;
     }
 
-    async #submitPOSTRequest(url: string, contents: any){
+    async #submitPOSTRequest(url: string, contents: any): Promise<string>{
         const telegramURL = new URL(url);
         const urlHostname = telegramURL.hostname;
         const urlPathname = telegramURL.pathname;
@@ -1249,7 +1249,7 @@ export default class Prosperly extends Events{
             //req.end(); //end request //closing request not necessary??? end() resulting in "Write After End" error
 
         });
-        return promise;
+        return promise as Promise<string>;
     }
 
     async #serverSetup(webhookParams: SetWebhookParams){
