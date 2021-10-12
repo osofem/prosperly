@@ -1172,7 +1172,7 @@ export default class Prosperly extends Events{
         //append all data to form
         for(let [key, content] of Object.entries(contents)){
             //check type
-            if(key === 'photo' || key === 'audio' || key === 'document' || key === 'video' || key === 'animation' || key === 'voice' || key === 'video_note' || key === 'thumb' || key === 'certificate'/*for setWebhook*/){
+            if(key === 'photo' || key === 'audio' || key === 'document' || key === 'video' || key === 'animation' || key === 'voice' || key === 'video_note' || key === 'thumb' || key === 'certificate'/*for setWebhook*/){             
                 //Check if I can read file from local computer
                 if(fs.existsSync(content)){ 
                     form.append(key, fs.createReadStream(content)); //send file content to telegram
@@ -1180,28 +1180,32 @@ export default class Prosperly extends Events{
                 }
             }
 
+            //check for media type
             if(key === 'media'){
+                const path = require('path');
+                
                 let elements: any[] = [];
                 let subContent = content as any[];
                 subContent.forEach(element => {
-                    //Check if I can read file from local computer
-                    if(fs.existsSync(element.media)){ 
-                        let newElement = {
-                            type: element.type,
-                            media: "attach://"+element.media.substr(2) //send file content to telegram
-                        }
-                        elements.push(newElement);
+                    //Get the file path
+                    let filePath = element.media;
+                    let filename = path.basename(filePath);
+
+                    //Check if I can read file from local computer, append the stream and "attach://" the file file
+                    if(fs.existsSync(element.media)){
+                        form.append(filename, fs.createReadStream(element.media));
+                        element.media = "attach://" + filename;
+                        elements.push(element);
                     }
                     //file not present in local computer, just send uri to telegram
                     else{
                         elements.push(element);
                     }
                 });
-                console.log(JSON.stringify(elements));
-                form.append(key, encodeURIComponent(JSON.stringify(elements)));
+                form.append(key, JSON.stringify(elements));
+                
             }
-
-            if(key === 'caption_entities' || key === 'reply_markup' || key === 'allowed_updates'){
+            else if(key === 'caption_entities' || key === 'reply_markup' || key === 'allowed_updates'){
                 form.append(key, JSON.stringify(content));
             }
             else{
@@ -1209,7 +1213,6 @@ export default class Prosperly extends Events{
             }
         }
         
-console.log(form);
         //build up the https options
         const options = {
             hostname: urlHostname,
@@ -1243,9 +1246,9 @@ console.log(form);
                 reject(error);
             });
 
-            req.end(); //end request
+            //req.end(); //end request //closing request not necessary??? end() resulting in Write After End error
+
         });
-        
         return promise;
     }
 
