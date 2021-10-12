@@ -1,6 +1,6 @@
 /*
  * Based on Telegram Bot API 5.3.
- * Prosperly 0.0.5
+ * Prosperly 0.0.7
  * Authour: Oluwafemi Oso (osofem)
  * Date: 11th October 2021
  */
@@ -22,7 +22,7 @@ export default class Prosperly extends Events{
      */
     constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
-        this.version = '0.0.5';
+        this.version = '0.0.7';
         this.#API_URL = "https://api.telegram.org/bot" + contents.botToken + "/";
 
         //setup webhook and server for listening
@@ -83,24 +83,8 @@ export default class Prosperly extends Events{
     * @return Promise of True on success.
     * */
     async #setWebhook2(contents: SetWebhookParams){
-        let url: string = this.#API_URL + "setWebhook?";
-        let queryString: string[] = [];
-        
-        for(let [key, content] of Object.entries(contents)){
-            if(key == 'allowed_updates'){
-                queryString.push(key + "=" + encodeURIComponent(JSON.stringify(content)));
-            }
-            else if(key == 'certificate'){
-                //Have to look into this TODO  
-            }
-            else{
-                queryString.push(key + "=" + encodeURIComponent(content.toString()));
-            }
-        }
-
-        // join queries together
-        url += queryString.join("&");
-        return this.#submitGETRequest(url);
+        let url = this.#API_URL + "setWebhook";
+        return this.#submitPOSTRequest(url, contents);
     }
 
     /**
@@ -1188,7 +1172,7 @@ export default class Prosperly extends Events{
         //append all data to form
         for(let [key, content] of Object.entries(contents)){
             //check type
-            if(key === 'photo' || key === 'audio' || key === 'document' || key === 'video' || key === 'animation' || key === 'voice' || key === 'video_note' || key === 'thumb'){
+            if(key === 'photo' || key === 'audio' || key === 'document' || key === 'video' || key === 'animation' || key === 'voice' || key === 'video_note' || key === 'thumb' || key === 'certificate'/*for setWebhook*/){             
                 //Check if I can read file from local computer
                 if(fs.existsSync(content)){ 
                     form.append(key, fs.createReadStream(content)); //send file content to telegram
@@ -1196,7 +1180,32 @@ export default class Prosperly extends Events{
                 }
             }
 
-            if(key === 'caption_entities' || key === 'reply_markup' || key === 'media'){
+            //check for media type
+            if(key === 'media'){
+                const path = require('path');
+                
+                let elements: any[] = [];
+                let subContent = content as any[];
+                subContent.forEach(element => {
+                    //Get the file path
+                    let filePath = element.media;
+                    let filename = path.basename(filePath);
+
+                    //Check if I can read file from local computer, append the stream and "attach://" the file file
+                    if(fs.existsSync(element.media)){
+                        form.append(filename, fs.createReadStream(element.media));
+                        element.media = "attach://" + filename;
+                        elements.push(element);
+                    }
+                    //file not present in local computer, just send uri to telegram
+                    else{
+                        elements.push(element);
+                    }
+                });
+                form.append(key, JSON.stringify(elements));
+                
+            }
+            else if(key === 'caption_entities' || key === 'reply_markup' || key === 'allowed_updates'){
                 form.append(key, JSON.stringify(content));
             }
             else{
@@ -1237,9 +1246,9 @@ export default class Prosperly extends Events{
                 reject(error);
             });
 
-            req.end(); //end request
+            //req.end(); //end request //closing request not necessary??? end() resulting in "Write After End" error
+
         });
-        
         return promise;
     }
 
