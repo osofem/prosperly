@@ -1,6 +1,6 @@
 /*
  * Based on Telegram Bot API 5.3.
- * Prosperly 0.0.6
+ * Prosperly 0.0.7
  * Authour: Oluwafemi Oso (osofem)
  * Date: 11th October 2021
  */
@@ -22,7 +22,7 @@ export default class Prosperly extends Events{
      */
     constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
-        this.version = '0.0.6';
+        this.version = '0.0.7';
         this.#API_URL = "https://api.telegram.org/bot" + contents.botToken + "/";
 
         //setup webhook and server for listening
