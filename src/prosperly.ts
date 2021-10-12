@@ -1246,7 +1246,7 @@ export default class Prosperly extends Events{
                 reject(error);
             });
 
-            //req.end(); //end request //closing request not necessary??? end() resulting in Write After End error
+            //req.end(); //end request //closing request not necessary??? end() resulting in "Write After End" error
 
         });
         return promise;
