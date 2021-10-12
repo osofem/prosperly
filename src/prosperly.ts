@@ -1180,7 +1180,28 @@ export default class Prosperly extends Events{
                 }
             }
 
-            if(key === 'caption_entities' || key === 'reply_markup' || key === 'media' || key === 'allowed_updates'){
+            if(key === 'media'){
+                let elements: any[] = [];
+                let subContent = content as any[];
+                subContent.forEach(element => {
+                    //Check if I can read file from local computer
+                    if(fs.existsSync(element.media)){ 
+                        let newElement = {
+                            type: element.type,
+                            media: "attach://"+element.media.substr(2) //send file content to telegram
+                        }
+                        elements.push(newElement);
+                    }
+                    //file not present in local computer, just send uri to telegram
+                    else{
+                        elements.push(element);
+                    }
+                });
+                console.log(JSON.stringify(elements));
+                form.append(key, encodeURIComponent(JSON.stringify(elements)));
+            }
+
+            if(key === 'caption_entities' || key === 'reply_markup' || key === 'allowed_updates'){
                 form.append(key, JSON.stringify(content));
             }
             else{
@@ -1188,6 +1209,7 @@ export default class Prosperly extends Events{
             }
         }
         
+console.log(form);
         //build up the https options
         const options = {
             hostname: urlHostname,
