@@ -1,9 +1,9 @@
 "use strict";
 /*
  * Based on Telegram Bot API 5.3.
- * Prosperly 0.0.7
+ * Prosperly
  * Authour: Oluwafemi Oso (osofem)
- * Date: 11th October 2021
+ *
  */
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
@@ -45,7 +45,7 @@ class Prosperly extends events_1.default {
         super();
         _Prosperly_instances.add(this);
         _Prosperly_API_URL.set(this, void 0);
-        this.version = '0.0.7';
+        this.version = '0.0.8'; //this version of prosperly
         __classPrivateFieldSet(this, _Prosperly_API_URL, "https://api.telegram.org/bot" + contents.botToken + "/", "f");
         //setup webhook and server for listening
         if (typeof (contents.webhookParams) != 'undefined') {
@@ -1225,7 +1225,7 @@ _Prosperly_API_URL = new WeakMap(), _Prosperly_instances = new WeakSet(), _Prosp
             req.on('error', error => {
                 reject(error);
             });
-            //req.end(); //end request //closing request not necessary??? end() resulting in Write After End error
+            //req.end(); //end request //closing request not necessary??? end() resulting in "Write After End" error
         });
         return promise;
     });
