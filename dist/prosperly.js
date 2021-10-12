@@ -45,7 +45,7 @@ class Prosperly extends events_1.default {
         super();
         _Prosperly_instances.add(this);
         _Prosperly_API_URL.set(this, void 0);
-        this.version = '0.0.8'; //this version of prosperly
+        this.version = '0.0.9'; //this version of prosperly
         __classPrivateFieldSet(this, _Prosperly_API_URL, "https://api.telegram.org/bot" + contents.botToken + "/", "f");
         //setup webhook and server for listening
         if (typeof (contents.webhookParams) != 'undefined') {
