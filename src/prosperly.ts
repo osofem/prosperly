@@ -22,7 +22,7 @@ export default class Prosperly extends Events{
      */
     constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
-        this.version = '0.0.9'; //this version of prosperly
+        this.version = '0.0.10'; //this version of prosperly
         this.#API_URL = "https://api.telegram.org/bot" + contents.botToken + "/";
 
         //setup webhook and server for listening
@@ -665,6 +665,42 @@ export default class Prosperly extends Events{
      */
     async revokeChatInviteLink(contents: RevokeChatInviteLinkParams){
         let url = this.#API_URL + "revokeChatInviteLink?";
+        let queryString: string[] = [];
+
+        for(let [key, content] of Object.entries(contents)){
+            queryString.push(key + '=' + encodeURIComponent(content.toString()));
+        }
+
+        // join queries together
+        url += queryString.join("&");
+        return this.#submitGETRequest(url);
+    }
+
+    /**
+     * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+     * @param contents Object of {chat_id: string|number; user_id: string|number}. chat_id: Unique identifier for the target chat or username of the target channel (in the format \@channelusername). user_id: Unique identifier of the target user
+     * @return Returns Promise of True on success
+     */
+    async approveChatJoinRequest(contents: {chat_id: string|number; user_id: string|number}){
+        let url = this.#API_URL + "approveChatJoinRequest?";
+        let queryString: string[] = [];
+
+        for(let [key, content] of Object.entries(contents)){
+            queryString.push(key + '=' + encodeURIComponent(content.toString()));
+        }
+
+        // join queries together
+        url += queryString.join("&");
+        return this.#submitGETRequest(url);
+    }	
+
+    /**
+     * Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+     * @param contents Object of {chat_id: string|number; user_id: string|number}. chat_id: Unique identifier for the target chat or username of the target channel (in the format \@channelusername). user_id: Unique identifier of the target user
+     * @returns Returns Promise of True on success
+     */
+    async declineChatJoinRequest(contents: {chat_id: string|number; user_id: string|number}){
+        let url = this.#API_URL + "declineChatJoinRequest?";
         let queryString: string[] = [];
 
         for(let [key, content] of Object.entries(contents)){
@@ -1330,6 +1366,10 @@ export default class Prosperly extends Events{
                     /*** chat member ***/
                     else if(typeof(data['chat_member']) !== 'undefined'){
                         this.emit('chatMember', data);
+                    }
+                    /*** chat join request ***/
+                    else if(typeof(data['chat_join_request']) !== 'undefined'){
+                        this.emit('chatJoinRequest', data);
                     }
                     /*** error ***/
                     else{

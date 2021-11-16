@@ -243,6 +243,24 @@ export default class Prosperly extends Events {
      */
     revokeChatInviteLink(contents: RevokeChatInviteLinkParams): Promise<string>;
     /**
+     * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+     * @param contents Object of {chat_id: string|number; user_id: string|number}. chat_id: Unique identifier for the target chat or username of the target channel (in the format \@channelusername). user_id: Unique identifier of the target user
+     * @return Returns Promise of True on success
+     */
+    approveChatJoinRequest(contents: {
+        chat_id: string | number;
+        user_id: string | number;
+    }): Promise<string>;
+    /**
+     * Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+     * @param contents Object of {chat_id: string|number; user_id: string|number}. chat_id: Unique identifier for the target chat or username of the target channel (in the format \@channelusername). user_id: Unique identifier of the target user
+     * @returns Returns Promise of True on success
+     */
+    declineChatJoinRequest(contents: {
+        chat_id: string | number;
+        user_id: string | number;
+    }): Promise<string>;
+    /**
      * Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
      * @param contents \{chat_id: string | number; photo: string}. chat_id - Unique identifier for the target chat or username of the target channel (in the format \@channelusername). photo - New chat photo, MUST be uploaded using multipart/form-data
      * @return  Returns Promise of True on success.

@@ -45,7 +45,7 @@ class Prosperly extends events_1.default {
         super();
         _Prosperly_instances.add(this);
         _Prosperly_API_URL.set(this, void 0);
-        this.version = '0.0.9'; //this version of prosperly
+        this.version = '0.0.10'; //this version of prosperly
         __classPrivateFieldSet(this, _Prosperly_API_URL, "https://api.telegram.org/bot" + contents.botToken + "/", "f");
         //setup webhook and server for listening
         if (typeof (contents.webhookParams) != 'undefined') {
@@ -681,6 +681,40 @@ class Prosperly extends events_1.default {
         });
     }
     /**
+     * Use this method to approve a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+     * @param contents Object of {chat_id: string|number; user_id: string|number}. chat_id: Unique identifier for the target chat or username of the target channel (in the format \@channelusername). user_id: Unique identifier of the target user
+     * @return Returns Promise of True on success
+     */
+    approveChatJoinRequest(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "approveChatJoinRequest?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                queryString.push(key + '=' + encodeURIComponent(content.toString()));
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /**
+     * Use this method to decline a chat join request. The bot must be an administrator in the chat for this to work and must have the can_invite_users administrator right.
+     * @param contents Object of {chat_id: string|number; user_id: string|number}. chat_id: Unique identifier for the target chat or username of the target channel (in the format \@channelusername). user_id: Unique identifier of the target user
+     * @returns Returns Promise of True on success
+     */
+    declineChatJoinRequest(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "declineChatJoinRequest?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                queryString.push(key + '=' + encodeURIComponent(content.toString()));
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /**
      * Use this method to set a new profile photo for the chat. Photos can't be changed for private chats. The bot must be an administrator in the chat for this to work and must have the appropriate admin rights.
      * @param contents \{chat_id: string | number; photo: string}. chat_id - Unique identifier for the target chat or username of the target channel (in the format \@channelusername). photo - New chat photo, MUST be uploaded using multipart/form-data
      * @return  Returns Promise of True on success.
@@ -1302,6 +1336,10 @@ _Prosperly_API_URL = new WeakMap(), _Prosperly_instances = new WeakSet(), _Prosp
                     /*** chat member ***/
                     else if (typeof (data['chat_member']) !== 'undefined') {
                         this.emit('chatMember', data);
+                    }
+                    /*** chat join request ***/
+                    else if (typeof (data['chat_join_request']) !== 'undefined') {
+                        this.emit('chatJoinRequest', data);
                     }
                     /*** error ***/
                     else {

@@ -29,7 +29,7 @@ bot.on('message', (data)=>{
             console.log(data);
         }).catch((err)=>{
             //an error occurred, message not sent
-            err.text().then((d: any)=>{console.log(d)});
+            console.log(err);
         });
     }
 });
@@ -42,8 +42,13 @@ bot.on('editedMessage', (data)=>{
 /**
 * You can listen for message, editedMessage, channelPost, editedChannelPost, inlineQuery, 
 * chosenInlineResult, callbackQuery, shippingQuery, preCheckoutQuery, poll, pollAnswer, 
-* myChatMember, chatMember, and error
+* myChatMember, chatMember, chatJoinRequest, and error
 */
+
+//listen for join request
+bot.on('chatJoinRequest', (data)=>{
+    console.log('Just received a join request: ', data);
+});
 
 //listen for error
 bot.on('error', (error)=>{
