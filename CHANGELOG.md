@@ -11,4 +11,4 @@
 * Added support for the choose_sticker action in the method sendChatAction.
 
 # 1.0.0
-* Added payment support
+* Added payment functions
