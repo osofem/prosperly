@@ -9,3 +9,6 @@
 * Added updates about new requests to join the chat, represented by the class ChatJoinRequest and the field chat_join_request in the Update class. The bot must be an administrator in the chat with the can_invite_users administrator right to receive these updates.
 * Added the methods approveChatJoinRequest and declineChatJoinRequest for managing requests to join the chat.
 * Added support for the choose_sticker action in the method sendChatAction.
+
+# 1.0.0
+* Added payment support

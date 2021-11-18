@@ -45,7 +45,7 @@ class Prosperly extends events_1.default {
         super();
         _Prosperly_instances.add(this);
         _Prosperly_API_URL.set(this, void 0);
-        this.version = '0.0.10'; //this version of prosperly
+        this.version = 'v1.0.0'; //this version of prosperly
         __classPrivateFieldSet(this, _Prosperly_API_URL, "https://api.telegram.org/bot" + contents.botToken + "/", "f");
         //setup webhook and server for listening
         if (typeof (contents.webhookParams) != 'undefined') {
@@ -1133,6 +1133,71 @@ class Prosperly extends events_1.default {
                 else {
                     queryString.push(key + '=' + encodeURIComponent(content.toString()));
                 }
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /* ++++++++++++++++++++++++++++++ */
+    /// Payments
+    /* ++++++++++++++++++++++++++++++ */
+    /**
+     * Use this method to send invoices.
+     * @param contents Object of type SendInvoiceParams
+     * @returns On success, promise of the sent Message is returned
+     */
+    sendInvoice(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "sendInvoice?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                if (key === 'prices' || key === 'suggested_tip_amounts' || key === 'provider_data' || key === 'reply_markup') {
+                    queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
+                }
+                else {
+                    queryString.push(key + '=' + encodeURIComponent(content.toString()));
+                }
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /**
+     * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries.
+     * @param contents Object of type AnswerShippingQueryParams
+     * @returns On success, promise of True is returned.
+     */
+    answerShippingQuery(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "answerShippingQuery?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                if (key === 'shipping_options') {
+                    queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
+                }
+                else {
+                    queryString.push(key + '=' + encodeURIComponent(content.toString()));
+                }
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /**
+     * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries.
+     * Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
+     * @param contents Object of type AnswerPreCheckoutQueryParams
+     * @returns On success, promise of True is returned.
+     */
+    answerPreCheckoutQuery(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "answerPreCheckoutQuery?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                queryString.push(key + '=' + encodeURIComponent(content.toString()));
             }
             // join queries together
             url += queryString.join("&");

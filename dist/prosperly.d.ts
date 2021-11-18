@@ -445,6 +445,25 @@ export default class Prosperly extends Events {
      * @return On success, Promise of True is returned.
      */
     answerInlineQuery(contents: AnswerInlineQueryParams): Promise<string>;
+    /**
+     * Use this method to send invoices.
+     * @param contents Object of type SendInvoiceParams
+     * @returns On success, promise of the sent Message is returned
+     */
+    sendInvoice(contents: SendInvoiceParams): Promise<string>;
+    /**
+     * If you sent an invoice requesting a shipping address and the parameter is_flexible was specified, the Bot API will send an Update with a shipping_query field to the bot. Use this method to reply to shipping queries.
+     * @param contents Object of type AnswerShippingQueryParams
+     * @returns On success, promise of True is returned.
+     */
+    answerShippingQuery(contents: AnswerShippingQueryParams): Promise<string>;
+    /**
+     * Once the user has confirmed their payment and shipping details, the Bot API sends the final confirmation in the form of an Update with the field pre_checkout_query. Use this method to respond to such pre-checkout queries.
+     * Note: The Bot API must receive an answer within 10 seconds after the pre-checkout query was sent.
+     * @param contents Object of type AnswerPreCheckoutQueryParams
+     * @returns On success, promise of True is returned.
+     */
+    answerPreCheckoutQuery(contents: AnswerPreCheckoutQueryParams): Promise<string>;
 }
 import { GetUpdateParams } from "./typealiases/getUpdateParams";
 import { SetWebhookParams } from "./typealiases/setWebhookParams";
@@ -487,3 +506,6 @@ import { EditMessageMediaParams } from './typealiases/editMessageMediaParams';
 import { EditMessageReplyMarkupParams } from './typealiases/editMessageReplyMarkupParams';
 import { StopPollParams } from './typealiases/stopPollParams';
 import { AnswerInlineQueryParams } from './typealiases/InlineQueryResult/answerInlineQueryParams';
+import { SendInvoiceParams } from './typealiases/sendInvoiceParams';
+import { AnswerShippingQueryParams } from './typealiases/answerShippingQueryParams';
+import { AnswerPreCheckoutQueryParams } from './typealiases/answerPreCheckoutQueryParams';
