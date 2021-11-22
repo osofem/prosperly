@@ -1,5 +1,5 @@
 /*
- * Based on Telegram Bot API 5.3.
+ * Based on Telegram Bot API 5.4.
  * Prosperly
  * Authour: Oluwafemi Oso (osofem)
  *
@@ -22,7 +22,7 @@ export default class Prosperly extends Events{
      */
     constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
-        this.version = 'v1.0.0'; //this version of prosperly
+        this.version = 'v1.0.1'; //this version of prosperly
         this.#API_URL = "https://api.telegram.org/bot" + contents.botToken + "/";
 
         //setup webhook and server for listening
@@ -45,7 +45,7 @@ export default class Prosperly extends Events{
     * @param contents Object of GetUpdateParams type
     * @return Promise of an Array of Update objects.
     * */
-    async getUpdates(contents: GetUpdateParams){
+    async getUpdates(contents: GetUpdateParams = {timeout: 0}){
         let url: string = this.#API_URL + "getUpdates?";
         let queryString: string[] = [];
         
@@ -114,7 +114,7 @@ export default class Prosperly extends Events{
     }
 
     /**
-     * Requires no parameters. 
+     * A simple method for testing your bot's authentication token. Requires no parameters.  
      * @return Returns Promise of basic information about the bot in form of a User object.  
      * */
     async getMe(){
@@ -123,7 +123,7 @@ export default class Prosperly extends Events{
     }
 
     /**
-     * Requires no parameters. log out from the cloud Bot API server before launching the bot locally 
+     * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes 
      * @return Returns Promise of true on success. Requires no parameters. 
      * */
     async logOut(){

@@ -19,7 +19,7 @@ export default class Prosperly extends Events {
     * @param contents Object of GetUpdateParams type
     * @return Promise of an Array of Update objects.
     * */
-    getUpdates(contents: GetUpdateParams): Promise<string>;
+    getUpdates(contents?: GetUpdateParams): Promise<string>;
     /**
     * Use this method to specify a url and receive incoming updates via an outgoing webhook
     * @param contents Object of SetWebhookParams type
@@ -40,12 +40,12 @@ export default class Prosperly extends Events {
      * */
     getWebhookInfo(): Promise<string>;
     /**
-     * Requires no parameters.
+     * A simple method for testing your bot's authentication token. Requires no parameters.
      * @return Returns Promise of basic information about the bot in form of a User object.
      * */
     getMe(): Promise<string>;
     /**
-     * Requires no parameters. log out from the cloud Bot API server before launching the bot locally
+     * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes
      * @return Returns Promise of true on success. Requires no parameters.
      * */
     logOut(): Promise<string>;

@@ -1,12 +1,12 @@
 {
   "name": "prosperly",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A wrapper for the Telegram Bot API",
   "main": "dist/prosperly.js",
   "types": "dist/prosperly.d.ts",
   "prepublish": "tsc",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "(tsc && mocha) || true"
   },
   "repository": {
     "type": "git",
@@ -25,7 +25,10 @@
     "url": "https://github.com/osofem/prosperly/issues"
   },
   "homepage": "https://github.com/osofem/prosperly#readme",
+  "documentations": "https://github.com/osofem/prosperly/tree/master/documentations",
   "devDependencies": {
+    "chai": "^4.3.4",
+    "mocha": "^9.1.3",
     "ts-node": "^10.2.1",
     "typescript": "^4.4.2"
   },

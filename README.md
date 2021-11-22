@@ -1,7 +1,13 @@
 # Prosperly
-Wrapper for the telegram bot API. Full documentation coming soon!
+A wrapper for the telegram bot API.
 
-## USAGE
+## DOCUMENTATION
+Check the [here](https://github.com/osofem/prosperly/tree/master/documentations) for documentations.
+
+## EXAMPLES
+Check the [examples folder](https://github.com/osofem/prosperly/tree/master/examples) for usage examples.
+
+## SIMPLE USAGE
 How to simply initialize prosperly
 
 ```javascript
@@ -13,8 +19,15 @@ You can also set your webhook
 
 ```javascript
 //Initiating prosperly
+const myBotToken = 'YOUR-BOT-TOKEN';
+const webhookURL = 'https://example.com:8080/some-path';
 const Prosperly = require('prosperly');
-const bot = new Prosperly({botToken: 'YOUR-BOT-TOKEN', {url: 'YOUR-WEBHOOK-URL'}, serverless: false});
+const bot = new Prosperly({
+    botToken: myBotToken, 
+    webhookParams: {
+        url: webhookURL
+    }
+});
 
 //listen for message
 bot.on('message', (data)=>{

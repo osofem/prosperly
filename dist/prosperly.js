@@ -1,6 +1,6 @@
 "use strict";
 /*
- * Based on Telegram Bot API 5.3.
+ * Based on Telegram Bot API 5.4.
  * Prosperly
  * Authour: Oluwafemi Oso (osofem)
  *
@@ -45,7 +45,7 @@ class Prosperly extends events_1.default {
         super();
         _Prosperly_instances.add(this);
         _Prosperly_API_URL.set(this, void 0);
-        this.version = 'v1.0.0'; //this version of prosperly
+        this.version = 'v1.0.1'; //this version of prosperly
         __classPrivateFieldSet(this, _Prosperly_API_URL, "https://api.telegram.org/bot" + contents.botToken + "/", "f");
         //setup webhook and server for listening
         if (typeof (contents.webhookParams) != 'undefined') {
@@ -66,7 +66,7 @@ class Prosperly extends events_1.default {
     * @param contents Object of GetUpdateParams type
     * @return Promise of an Array of Update objects.
     * */
-    getUpdates(contents) {
+    getUpdates(contents = { timeout: 0 }) {
         return __awaiter(this, void 0, void 0, function* () {
             let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "getUpdates?";
             let queryString = [];
@@ -127,7 +127,7 @@ class Prosperly extends events_1.default {
         });
     }
     /**
-     * Requires no parameters.
+     * A simple method for testing your bot's authentication token. Requires no parameters.
      * @return Returns Promise of basic information about the bot in form of a User object.
      * */
     getMe() {
@@ -137,7 +137,7 @@ class Prosperly extends events_1.default {
         });
     }
     /**
-     * Requires no parameters. log out from the cloud Bot API server before launching the bot locally
+     * Use this method to log out from the cloud Bot API server before launching the bot locally. You must log out the bot before running it locally, otherwise there is no guarantee that the bot will receive updates. After a successful call, you can immediately log in on a local server, but will not be able to log in back to the cloud Bot API server for 10 minutes
      * @return Returns Promise of true on success. Requires no parameters.
      * */
     logOut() {

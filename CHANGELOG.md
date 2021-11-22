@@ -12,3 +12,9 @@
 
 # 1.0.0
 * Added payment functions
+
+# 1.0.1
+* Introduced a simple test
+* Added some documentations
+* Added some usage examples
+* getUpdates to accept empty parameter instead of empty object {}.
