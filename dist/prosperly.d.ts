@@ -213,6 +213,32 @@ export default class Prosperly extends Events {
      */
     setChatAdministratorCustomTitle(contents: SetChatAdministratorCustomTitleParams): Promise<string>;
     /**
+     * Use this method to ban a channel chat in a supergroup or a channel. Until the chat is unbanned, the owner of the banned chat won't be able to send messages on behalf of any of their channels. The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights.
+     * @param contents Object of {chat_id; sender_chat_id}
+     * @returns Returns Promise of True on success.
+     *
+     * chat_id: string|number Unique identifier for the target chat or username of the target channel
+     *
+     * sender_chat_id: number Unique identifier of the target sender chat
+     */
+    banChatSenderChat(contents: {
+        chat_id: string | number;
+        sender_chat_id: number;
+    }): Promise<string>;
+    /**
+     * Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be an administrator for this to work and must have the appropriate administrator rights.
+     * @param contents Object of {chat_id; sender_chat_id}
+     * @returns Returns Promise of True on success.
+     *
+     * chat_id: string|number Unique identifier for the target chat or username of the target channel
+     *
+     * sender_chat_id: number Unique identifier of the target sender chat
+     */
+    unbanChatSenderChat(contents: {
+        chat_id: string | number;
+        sender_chat_id: number;
+    }): Promise<string>;
+    /**
      * Use this method to set default chat permissions for all members. The bot must be an administrator in the group or a supergroup for this to work and must have the can_restrict_members admin rights.
      * @param contents Object of the type SetChatPermissionsParams
      * @return Returns Promise of True on success.

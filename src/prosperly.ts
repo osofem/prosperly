@@ -22,7 +22,7 @@ export default class Prosperly extends Events{
      */
     constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
-        this.version = 'v1.0.1'; //this version of prosperly
+        this.version = 'v1.1.0'; //this version of prosperly
         this.#API_URL = "https://api.telegram.org/bot" + contents.botToken + "/";
 
         //setup webhook and server for listening
@@ -578,6 +578,51 @@ export default class Prosperly extends Events{
      */
     async setChatAdministratorCustomTitle(contents: SetChatAdministratorCustomTitleParams){
         let url = this.#API_URL + "setChatAdministratorCustomTitle?";
+        let queryString: string[] = [];
+
+        for(let [key, content] of Object.entries(contents)){
+            queryString.push(key + '=' + encodeURIComponent(content.toString()));
+        }
+
+        // join queries together
+        url += queryString.join("&");
+        return this.#submitGETRequest(url);
+    }
+
+    /**
+     * Use this method to ban a channel chat in a supergroup or a channel. Until the chat is unbanned, the owner of the banned chat won't be able to send messages on behalf of any of their channels. The bot must be an administrator in the supergroup or channel for this to work and must have the appropriate administrator rights.
+     * @param contents Object of {chat_id; sender_chat_id}
+     * @returns Returns Promise of True on success.
+     * 
+     * chat_id: string|number Unique identifier for the target chat or username of the target channel
+     * 
+     * sender_chat_id: number Unique identifier of the target sender chat
+     */
+    async banChatSenderChat(contents: {chat_id: string|number; sender_chat_id: number}){
+        let url = this.#API_URL + "banChatSenderChat?";
+        let queryString: string[] = [];
+
+        for(let [key, content] of Object.entries(contents)){
+            queryString.push(key + '=' + encodeURIComponent(content.toString()));
+        }
+
+        // join queries together
+        url += queryString.join("&");
+        return this.#submitGETRequest(url);
+    }
+
+
+    /**
+     * Use this method to unban a previously banned channel chat in a supergroup or channel. The bot must be an administrator for this to work and must have the appropriate administrator rights.
+     * @param contents Object of {chat_id; sender_chat_id}
+     * @returns Returns Promise of True on success.
+     * 
+     * chat_id: string|number Unique identifier for the target chat or username of the target channel
+     * 
+     * sender_chat_id: number Unique identifier of the target sender chat
+     */
+    async unbanChatSenderChat(contents: {chat_id: string|number; sender_chat_id: number}){
+        let url = this.#API_URL + "unbanChatSenderChat?";
         let queryString: string[] = [];
 
         for(let [key, content] of Object.entries(contents)){
