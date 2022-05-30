@@ -38,14 +38,30 @@ class Prosperly extends events_1.default {
     /**
      * Constructor. Declares bot token and start building API URL. Setup webhook if webhookParams is specified and server for listening if serverless is false
      * @param botToken bot token gotten from \@BotFather
-     * @param webhookParams webhook parameter that specify url and other information
-     * @param serverless specify if the app is to be serverless. Default is false (that is a server will be initialiated up). Note if true then app can't receive event messages
+     * @param webhookParams webhook parameter that specify url and other information. Object of type {@link SetWebhookParams}
+     * @param serverless specify if the app is to be serverless. Default is false (that is a server will be initialiated). Note if true then app can't receive event messages
+     *
+     * @example
+     * const myBotToken = 'YOUR-BOT-TOKEN';
+     * const webhookURL = 'https://example.com:8080/some-path';
+     *
+     * const Prosperly = require('prosperly');
+     * const bot = new Prosperly({
+     *  //Bot token
+     *  botToken: myBotToken,
+     *  //webhook parameters
+     *  webhookParams: {
+     *    url: webhookURL
+     *  },
+     *  //for serverless environment, set serverless to true
+     *  serverless: true
+     * });
      */
     constructor(contents) {
         super();
         _Prosperly_instances.add(this);
         _Prosperly_API_URL.set(this, void 0);
-        this.version = 'v1.1.0'; //this version of prosperly
+        this.version = 'v1.2.0'; //this version of prosperly
         __classPrivateFieldSet(this, _Prosperly_API_URL, "https://api.telegram.org/bot" + contents.botToken + "/", "f");
         //setup webhook and server for listening
         if (typeof (contents.webhookParams) != 'undefined') {
@@ -63,8 +79,28 @@ class Prosperly extends events_1.default {
     }
     /**
     * Use this method to receive incoming updates using long polling
-    * @param contents Object of GetUpdateParams type
+    * @param contents Objects to specify the update parameters to receive. Object of type {@link GetUpdateParams}
     * @return Promise of an Array of Update objects.
+    *
+    * @example
+    * const myBotToken = 'YOUR-BOT-TOKEN';
+    * const Prosperly = require('prosperly');
+    * const bot = new Prosperly({
+    *   botToken: myBotToken
+    * });
+    *
+    * bot.getUpdates({
+    *   offset: 0,
+    *   limit: 10, //max is 100
+    *   timeout: 10,
+    *   //optionally set allowed updates
+    *   allowed_updates: ["message", "edited_channel_post", "callback_query"]
+    * }).then((data)=>{
+    *   //do something with the array of objects
+    * }).catch((err)=>{
+    *   //catch some errors
+    * });
+    *
     * */
     getUpdates(contents = { timeout: 0 }) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -80,8 +116,31 @@ class Prosperly extends events_1.default {
     }
     /**
     * Use this method to specify a url and receive incoming updates via an outgoing webhook
-    * @param contents Object of SetWebhookParams type
+    * @param contents Object to specify the webhook parameters. Object of type {@link SetWebhookParams}
     * @return Promise of True on success.
+    *
+    * @example
+    * const myBotToken = 'YOUR-BOT-TOKEN';
+    * const webhookURL = 'https://example.com:8080/some-path';
+    *
+    * const Prosperly = require('prosperly');
+    * const bot = new Prosperly({botToken: myBotToken});
+    *
+    * bot.setWebhook({
+    *   url: webhookURL,
+    *   //everything from here is optional
+    *   certificate: certificateFile,
+    *   ip_address: ip,
+    *   max_connections: maxConnectionToAllow,
+    *   //Specify the updates you want to receive, if you dont want to receive all updates
+    *   allowed_updates: ["message", "edited_channel_post", "callback_query"],
+    *   drop_pending_updates: "false"
+    * }, true).then((data)=>{
+    *   //set webhook successful, do something
+    * }).catch((err)=>{
+    *   //catch some errors
+    * });
+    *
     * */
     setWebhook(contents, serverless = false) {
         return __awaiter(this, void 0, void 0, function* () {

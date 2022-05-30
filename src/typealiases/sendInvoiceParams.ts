@@ -24,6 +24,7 @@ export type SendInvoiceParams = {
     send_email_to_provider?: boolean //Pass True, if user's email address should be sent to provider
     is_flexible?: boolean //Pass True, if the final price depends on the shipping method
     disable_notification?: boolean //Sends the message silently. Users will receive a notification with no sound.
+    protect_content?: boolean; //Protects the contents of the sent message from forwarding and saving
     reply_to_message_id?: number //If the message is a reply, ID of the original message
     allow_sending_without_reply?: boolean //Pass True, if the message should be sent even if the specified replied-to message is not found
     reply_markup?: 	InlineKeyboardMarkup //A JSON-serialized object for an inline keyboard. If empty, one 'Pay total price' button will be shown. If not empty, the first button must be a Pay button.

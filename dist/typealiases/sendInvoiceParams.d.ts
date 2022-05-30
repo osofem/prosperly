@@ -23,6 +23,7 @@ export declare type SendInvoiceParams = {
     send_email_to_provider?: boolean;
     is_flexible?: boolean;
     disable_notification?: boolean;
+    protect_content?: boolean;
     reply_to_message_id?: number;
     allow_sending_without_reply?: boolean;
     reply_markup?: InlineKeyboardMarkup;

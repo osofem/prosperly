@@ -10,6 +10,7 @@ export declare type SendVideoParams = {
     caption_entities?: MessageEntity[];
     supports_streaming?: boolean;
     disable_notification?: boolean;
+    protect_content?: boolean;
     reply_to_message_id?: number;
     allow_sending_without_reply?: boolean;
     reply_markup?: InlineKeyboardMarkup | ReplyKeyboardMarkup | ReplyKeyboardRemove | ForceReply;

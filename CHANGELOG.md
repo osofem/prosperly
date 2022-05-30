@@ -28,3 +28,12 @@
 * ~Added the field has_private_forwards to the class Chat for private chats, which can be used to check the possibility of mentioning the user by their ID.~ NOTHING TO DO HERE
 * ~Added the field has_protected_content to the classes Chat and Message.~ NOTHING TO DO HERE
 * ~Added the field is_automatic_forward to the class Message.~ NOTHING TO DO HERE
+
+# 1.2.0
+* Added links and examples to the code comments
+* Implemented December 30, 2021 Bot API 5.6 Updates as per below
+* ~Improved support for Protected Content.~ NOTHING TO DO HERE
+* Added the parameter protect_content to the methods sendMessage, sendPhoto, sendVideo, sendAnimation, sendAudio, sendDocument, ~sendSticker,~ sendVideoNote, sendVoice, sendLocation, sendVenue, sendContact, sendPoll, sendDice, sendInvoice, ~sendGame,~ sendMediaGroup, copyMessage, forwardMessage to allow sending messages with protected content to any chat.
+* ~Added support for spoiler entities, which will work in Telegram versions released after December 30, 2021. Older clients will display unsupported message.~ NOTHING TO DO HERE
+* Added new MessageEntity type “spoiler”.
+* ~Added the ability to specify spoiler entities using HTML and MarkdownV2 formatting options.~ NOTHING TO DO HERE
