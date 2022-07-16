@@ -6,7 +6,7 @@ export type PromoteChatMemberParams = {
     can_post_messages?: boolean //Pass True, if the administrator can create channel posts, channels only
     can_edit_messages?: boolean //Pass True, if the administrator can edit messages of other users and can pin messages, channels only
     can_delete_messages?: boolean //Pass True, if the administrator can delete messages of other users
-    can_manage_voice_chats?: boolean //Pass True, if the administrator can manage voice chats
+    can_manage_video_chats?: boolean //Pass True, if the administrator can manage video chats
     can_restrict_members?: boolean //Pass True, if the administrator can restrict, ban or unban chat members
     can_promote_members?: boolean //Pass True, if the administrator can add new administrators with a subset of their own privileges or demote administrators that he has promoted, directly or indirectly (promoted by administrators that were appointed by him)
     can_change_info?: boolean //Pass True, if the administrator can change chat title, photo and other settings

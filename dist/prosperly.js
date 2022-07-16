@@ -1,6 +1,6 @@
 "use strict";
 /*
- * Based on Telegram Bot API 5.4.
+ * Based on Telegram Bot API 5.7.
  * Prosperly
  * Authour: Oluwafemi Oso (osofem)
  *
@@ -61,7 +61,7 @@ class Prosperly extends events_1.default {
         super();
         _Prosperly_instances.add(this);
         _Prosperly_API_URL.set(this, void 0);
-        this.version = 'v1.2.0'; //this version of prosperly
+        this.version = 'v1.3.0'; //this version of prosperly
         __classPrivateFieldSet(this, _Prosperly_API_URL, "https://api.telegram.org/bot" + contents.botToken + "/", "f");
         //setup webhook and server for listening
         if (typeof (contents.webhookParams) != 'undefined') {
@@ -1069,7 +1069,7 @@ class Prosperly extends events_1.default {
     /**
      * Use this method to get the current list of the bot's commands for the given scope and user language.
      * @param contents \{scope?: BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember; language_code?: string}
-     * @return ReturnsPromise of Array of BotCommand on success. If commands aren't set, an empty list is returned.
+     * @return Returns Promise of Array of BotCommand on success. If commands aren't set, an empty list is returned.
      */
     getMyCommands(contents) {
         return __awaiter(this, void 0, void 0, function* () {
@@ -1082,6 +1082,84 @@ class Prosperly extends events_1.default {
                 else {
                     queryString.push(key + '=' + encodeURIComponent(content.toString()));
                 }
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /**
+     * Use this method to change the bot's menu button in a private chat, or the default menu button.
+     * @param contents Object of the type SetChatMenuButtonParams
+     * @return Returns True on success.
+     */
+    setChatMenuButton(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "setChatMenuButton?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                if (key === 'menu_button') {
+                    queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
+                }
+                else {
+                    queryString.push(key + '=' + encodeURIComponent(content.toString()));
+                }
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /**
+     * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button.
+     * @param contents chat_id Unique identifier for the target private chat. If not specified, default bot's menu button will be returned
+     * @return Returns MenuButton on success.
+     */
+    getChatMenuButton(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "getChatMenuButton?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                queryString.push(key + '=' + encodeURIComponent(content.toString()));
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /**
+     * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are are free to modify the list before adding the bot.
+     * @param contents Object of the type SetMyDefaultAdministratorRightsParams
+     * @return Returns True on success.
+     */
+    setMyDefaultAdministratorRights(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "setMyDefaultAdministratorRights?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                if (key === 'rights') {
+                    queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
+                }
+                else {
+                    queryString.push(key + '=' + encodeURIComponent(content.toString()));
+                }
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /**
+     * Use this method to get the current default administrator rights of the bot.
+     * @param contents for_channels Boolean Pass True to get default administrator rights of the bot in channels. Otherwise, default administrator rights of the bot for groups and supergroups will be returned.
+     * @return Returns ChatAdministratorRights on success.
+     */
+    getMyDefaultAdministratorRights(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "getMyDefaultAdministratorRights?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                queryString.push(key + '=' + encodeURIComponent(content.toString()));
             }
             // join queries together
             url += queryString.join("&");
@@ -1229,6 +1307,28 @@ class Prosperly extends events_1.default {
             let queryString = [];
             for (let [key, content] of Object.entries(contents)) {
                 if (key === 'results') {
+                    queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
+                }
+                else {
+                    queryString.push(key + '=' + encodeURIComponent(content.toString()));
+                }
+            }
+            // join queries together
+            url += queryString.join("&");
+            return __classPrivateFieldGet(this, _Prosperly_instances, "m", _Prosperly_submitGETRequest).call(this, url);
+        });
+    }
+    /**
+     * Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated.
+     * @param contents Object of the type AnswerWebAppQueryParams
+     * @return On success, a SentWebAppMessage object is returned.
+     */
+    answerWebAppQuery(contents) {
+        return __awaiter(this, void 0, void 0, function* () {
+            let url = __classPrivateFieldGet(this, _Prosperly_API_URL, "f") + "answerWebAppQuery?";
+            let queryString = [];
+            for (let [key, content] of Object.entries(contents)) {
+                if (key === 'result') {
                     queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
                 }
                 else {

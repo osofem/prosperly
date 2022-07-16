@@ -37,3 +37,22 @@
 * ~Added support for spoiler entities, which will work in Telegram versions released after December 30, 2021. Older clients will display unsupported message.~ NOTHING TO DO HERE
 * Added new MessageEntity type “spoiler”.
 * ~Added the ability to specify spoiler entities using HTML and MarkdownV2 formatting options.~ NOTHING TO DO HERE
+
+# 2.0.0 [YTTR]
+* Added more links and examples to the code comments
+* Implemented January 31, 2022 Bot API 5.7 updates as per below
+* ~Added support for Video Stickers.~ NOTHING TO DO HERE YET
+* ~Added the field is_video to the classes Sticker and StickerSet.~ NOTHING TO DO HERE
+* ~Added the parameter webm_sticker to the methods createNewStickerSet and addStickerToSet.~ NOTHING TO DO HERE YET 
+* Implemented April 16, 2022 Bot API 6.0 updates as per below
+* Added support for Web Apps, see the detailed manual here. (blog announcement) PENDING
+* Added the class WebAppInfo and the fields web_app to the classes KeyboardButton and InlineKeyboardButton.
+* Added the class SentWebAppMessage and the method answerWebAppQuery for sending an answer to a Web App query, which originated from an inline button of the 'web_app' type.
+* Added the class WebAppData ~and the field web_app_data to the class Message.~
+* Added the class MenuButton and the methods setChatMenuButton and getChatMenuButton for managing the behavior of the bot's menu button in private chats.
+* Added the class ChatAdministratorRights and the methods setMyDefaultAdministratorRights and getMyDefaultAdministratorRights for managing the bot's default administrator rights.
+* ~Added support for t.me links that can be used to add the bot to groups and channels as an administrator.~ NOTHING TO DO HERE
+* Added the field last_synchronization_error_date to the class WebhookInfo.
+* ~Renamed the field can_manage_voice_chats to can_manage_video_chats in the class ChatMemberAdministrator. The old field will remain temporarily available.~ NOTHING TO DO HERE
+* Renamed the parameter can_manage_voice_chats to can_manage_video_chats in the method promoteChatMember. ~The old parameter will remain temporarily available.~
+* ~Renamed the fields voice_chat_scheduled, voice_chat_started, voice_chat_ended, and voice_chat_participants_invited to video_chat_scheduled, video_chat_started, video_chat_ended, and video_chat_participants_invited in the class Message. The old fields will remain temporarily available.~ NOTHING TO DO HERE

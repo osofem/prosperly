@@ -1,6 +1,6 @@
 {
   "name": "prosperly",
-  "version": "1.2.0",
+  "version": "2.0.0",
   "description": "A wrapper for the Telegram Bot API",
   "main": "dist/prosperly.js",
   "types": "dist/prosperly.d.ts",

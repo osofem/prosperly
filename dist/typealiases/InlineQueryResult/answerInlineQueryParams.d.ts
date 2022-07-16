@@ -1,12 +1,13 @@
 export declare type AnswerInlineQueryParams = {
     inline_query_id: string;
-    results: (InlineQueryResultCachedAudio | InlineQueryResultCachedDocument | InlineQueryResultCachedGif | InlineQueryResultCachedMpeg4Gif | InlineQueryResultCachedPhoto | InlineQueryResultCachedSticker | InlineQueryResultCachedVideo | InlineQueryResultCachedVoice | InlineQueryResultArticle | InlineQueryResultAudio | InlineQueryResultContact | InlineQueryResultGame | InlineQueryResultDocument | InlineQueryResultGif | InlineQueryResultLocation | InlineQueryResultMpeg4Gif | InlineQueryResultPhoto | InlineQueryResultVenue | InlineQueryResultVideo | InlineQueryResultVoice)[];
+    results: InlineQueryResult[];
     cache_time?: number;
     is_personal?: boolean;
     next_offset?: string;
     switch_pm_text?: string;
     switch_pm_parameter?: string;
 };
+export declare type InlineQueryResult = (InlineQueryResultCachedAudio | InlineQueryResultCachedDocument | InlineQueryResultCachedGif | InlineQueryResultCachedMpeg4Gif | InlineQueryResultCachedPhoto | InlineQueryResultCachedSticker | InlineQueryResultCachedVideo | InlineQueryResultCachedVoice | InlineQueryResultArticle | InlineQueryResultAudio | InlineQueryResultContact | InlineQueryResultGame | InlineQueryResultDocument | InlineQueryResultGif | InlineQueryResultLocation | InlineQueryResultMpeg4Gif | InlineQueryResultPhoto | InlineQueryResultVenue | InlineQueryResultVideo | InlineQueryResultVoice);
 import { InlineQueryResultArticle } from "./inlineQueryResultArticle";
 import { InlineQueryResultAudio } from "./inlineQueryResultAudio";
 import { InlineQueryResultCachedAudio } from "./inlineQueryResultCachedAudio";

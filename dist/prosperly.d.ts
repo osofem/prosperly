@@ -471,11 +471,39 @@ export default class Prosperly extends Events {
     /**
      * Use this method to get the current list of the bot's commands for the given scope and user language.
      * @param contents \{scope?: BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember; language_code?: string}
-     * @return ReturnsPromise of Array of BotCommand on success. If commands aren't set, an empty list is returned.
+     * @return Returns Promise of Array of BotCommand on success. If commands aren't set, an empty list is returned.
      */
     getMyCommands(contents: {
         scope?: BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember;
         language_code?: string;
+    }): Promise<string>;
+    /**
+     * Use this method to change the bot's menu button in a private chat, or the default menu button.
+     * @param contents Object of the type SetChatMenuButtonParams
+     * @return Returns True on success.
+     */
+    setChatMenuButton(contents: SetChatMenuButtonParams): Promise<string>;
+    /**
+     * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button.
+     * @param contents chat_id Unique identifier for the target private chat. If not specified, default bot's menu button will be returned
+     * @return Returns MenuButton on success.
+     */
+    getChatMenuButton(contents: {
+        chat_id?: number | string;
+    }): Promise<string>;
+    /**
+     * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are are free to modify the list before adding the bot.
+     * @param contents Object of the type SetMyDefaultAdministratorRightsParams
+     * @return Returns True on success.
+     */
+    setMyDefaultAdministratorRights(contents: SetMyDefaultAdministratorRightsParams): Promise<string>;
+    /**
+     * Use this method to get the current default administrator rights of the bot.
+     * @param contents for_channels Boolean Pass True to get default administrator rights of the bot in channels. Otherwise, default administrator rights of the bot for groups and supergroups will be returned.
+     * @return Returns ChatAdministratorRights on success.
+     */
+    getMyDefaultAdministratorRights(contents: {
+        for_channels?: boolean;
     }): Promise<string>;
     /**
      * Use this method to edit text and game messages.
@@ -530,6 +558,12 @@ export default class Prosperly extends Events {
      * @return On success, Promise of True is returned.
      */
     answerInlineQuery(contents: AnswerInlineQueryParams): Promise<string>;
+    /**
+     * Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated.
+     * @param contents Object of the type AnswerWebAppQueryParams
+     * @return On success, a SentWebAppMessage object is returned.
+     */
+    answerWebAppQuery(contents: AnswerWebAppQueryParams): Promise<string>;
     /**
      * Use this method to send invoices.
      * @param contents Object of type SendInvoiceParams
@@ -594,3 +628,6 @@ import { AnswerInlineQueryParams } from './typealiases/InlineQueryResult/answerI
 import { SendInvoiceParams } from './typealiases/sendInvoiceParams';
 import { AnswerShippingQueryParams } from './typealiases/answerShippingQueryParams';
 import { AnswerPreCheckoutQueryParams } from './typealiases/answerPreCheckoutQueryParams';
+import { AnswerWebAppQueryParams } from './typealiases/InlineQueryResult/answerWebAppQueryParams';
+import { SetChatMenuButtonParams } from './typealiases/setChatMenuButtonParams';
+import { SetMyDefaultAdministratorRightsParams } from './typealiases/setMyDefaultAdministratorRightsParams';

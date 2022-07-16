@@ -11,8 +11,12 @@ export type KeyboardButton = {
     request_contact?: boolean; //If True, the user's phone number will be sent as a contact when the button is pressed. Available in private chats only
     request_location?: boolean; //If True, the user's current location will be sent when the button is pressed. Available in private chats only
     request_poll?: KeyboardButtonPollType; //If specified, the user will be asked to create a poll and send it to the bot when the button is pressed. Available in private chats only
+    web_app?: WebAppInfo //Optional. If specified, the described Web App will be launched when the button is pressed. The Web App will be able to send a “web_app_data” service message. Available in private chats only.
 };
 
 export type KeyboardButtonPollType = {
     type?: string; //If quiz is passed, the user will be allowed to create only polls in the quiz mode. If regular is passed, only regular polls will be allowed. Otherwise, the user will be allowed to create a poll of any type.
 };
+
+
+import { WebAppInfo } from "./webAppInfo";

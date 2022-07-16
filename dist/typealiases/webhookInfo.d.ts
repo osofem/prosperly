@@ -5,6 +5,7 @@ export declare type WebhookInfo = {
     ip_address?: string;
     last_error_date?: number;
     last_error_message?: string;
+    last_synchronization_error_date?: number;
     max_connections?: number;
     allowed_updates?: string[];
 };

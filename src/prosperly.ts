@@ -1,5 +1,5 @@
 /*
- * Based on Telegram Bot API 5.4.
+ * Based on Telegram Bot API 5.7.
  * Prosperly
  * Authour: Oluwafemi Oso (osofem)
  *
@@ -38,7 +38,7 @@ export default class Prosperly extends Events{
      */
     constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
-        this.version = 'v1.2.0'; //this version of prosperly
+        this.version = 'v1.3.0'; //this version of prosperly
         this.#API_URL = "https://api.telegram.org/bot" + contents.botToken + "/";
 
         //setup webhook and server for listening
@@ -1072,7 +1072,7 @@ export default class Prosperly extends Events{
     /**
      * Use this method to get the current list of the bot's commands for the given scope and user language. 
      * @param contents \{scope?: BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember; language_code?: string}
-     * @return ReturnsPromise of Array of BotCommand on success. If commands aren't set, an empty list is returned.
+     * @return Returns Promise of Array of BotCommand on success. If commands aren't set, an empty list is returned.
      */
     async getMyCommands(contents: {scope?: BotCommandScopeDefault | BotCommandScopeAllPrivateChats | BotCommandScopeAllGroupChats | BotCommandScopeAllChatAdministrators | BotCommandScopeChat | BotCommandScopeChatAdministrators | BotCommandScopeChatMember; language_code?: string}){
         let url = this.#API_URL + "getMyCommands?";
@@ -1085,6 +1085,90 @@ export default class Prosperly extends Events{
             else{
                 queryString.push(key + '=' + encodeURIComponent(content.toString()));
             }
+        }
+
+        // join queries together
+        url += queryString.join("&");
+        return this.#submitGETRequest(url);
+    }
+
+    /**
+     * Use this method to change the bot's menu button in a private chat, or the default menu button. 
+     * @param contents Object of the type SetChatMenuButtonParams
+     * @return Returns True on success.
+     */
+    async setChatMenuButton(contents: SetChatMenuButtonParams){
+        let url = this.#API_URL + "setChatMenuButton?";
+        let queryString: string[] = [];
+
+        for(let [key, content] of Object.entries(contents)){
+            if(key === 'menu_button'){
+                queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
+            }
+            else{
+                queryString.push(key + '=' + encodeURIComponent(content.toString()));
+            }
+        }
+
+        // join queries together
+        url += queryString.join("&");
+        return this.#submitGETRequest(url);
+    }
+
+
+    /**
+     * Use this method to get the current value of the bot's menu button in a private chat, or the default menu button.
+     * @param contents chat_id Unique identifier for the target private chat. If not specified, default bot's menu button will be returned
+     * @return Returns MenuButton on success.
+     */
+    async getChatMenuButton(contents: {chat_id?: number | string}){
+        let url = this.#API_URL + "getChatMenuButton?";
+        let queryString: string[] = [];
+
+        for(let [key, content] of Object.entries(contents)){
+            queryString.push(key + '=' + encodeURIComponent(content.toString()));
+        }
+
+        // join queries together
+        url += queryString.join("&");
+        return this.#submitGETRequest(url);
+    }
+
+
+    /**
+     * Use this method to change the default administrator rights requested by the bot when it's added as an administrator to groups or channels. These rights will be suggested to users, but they are are free to modify the list before adding the bot. 
+     * @param contents Object of the type SetMyDefaultAdministratorRightsParams
+     * @return Returns True on success.
+     */
+    async setMyDefaultAdministratorRights(contents: SetMyDefaultAdministratorRightsParams){
+        let url = this.#API_URL + "setMyDefaultAdministratorRights?";
+        let queryString: string[] = [];
+
+        for(let [key, content] of Object.entries(contents)){
+            if(key === 'rights'){
+                queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
+            }
+            else{
+                queryString.push(key + '=' + encodeURIComponent(content.toString()));
+            }
+        }
+
+        // join queries together
+        url += queryString.join("&");
+        return this.#submitGETRequest(url);
+    }
+
+    /**
+     * Use this method to get the current default administrator rights of the bot. 
+     * @param contents for_channels Boolean Pass True to get default administrator rights of the bot in channels. Otherwise, default administrator rights of the bot for groups and supergroups will be returned.
+     * @return Returns ChatAdministratorRights on success.
+     */
+    async getMyDefaultAdministratorRights(contents: {for_channels?: boolean}){
+        let url = this.#API_URL + "getMyDefaultAdministratorRights?";
+        let queryString: string[] = [];
+
+        for(let [key, content] of Object.entries(contents)){
+            queryString.push(key + '=' + encodeURIComponent(content.toString()));
         }
 
         // join queries together
@@ -1239,6 +1323,30 @@ export default class Prosperly extends Events{
 
         for(let [key, content] of Object.entries(contents)){
             if(key === 'results'){
+                queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
+            }
+            else{
+                queryString.push(key + '=' + encodeURIComponent(content.toString()));
+            }
+        }
+
+        // join queries together
+        url += queryString.join("&");
+        return this.#submitGETRequest(url);
+    }
+
+
+    /**
+     * Use this method to set the result of an interaction with a Web App and send a corresponding message on behalf of the user to the chat from which the query originated.
+     * @param contents Object of the type AnswerWebAppQueryParams
+     * @return On success, a SentWebAppMessage object is returned.
+     */
+    async answerWebAppQuery(contents: AnswerWebAppQueryParams){
+        let url = this.#API_URL + "answerWebAppQuery?";
+        let queryString: string[] = [];
+
+        for(let [key, content] of Object.entries(contents)){
+            if(key === 'result'){
                 queryString.push(key + '=' + encodeURIComponent(JSON.stringify(content)));
             }
             else{
@@ -1611,4 +1719,6 @@ import { StopPollParams } from './typealiases/stopPollParams';
 import { AnswerInlineQueryParams } from './typealiases/InlineQueryResult/answerInlineQueryParams';
 import { SendInvoiceParams } from './typealiases/sendInvoiceParams';import { AnswerShippingQueryParams } from './typealiases/answerShippingQueryParams';
 import { AnswerPreCheckoutQueryParams } from './typealiases/answerPreCheckoutQueryParams';
+import { AnswerWebAppQueryParams } from './typealiases/InlineQueryResult/answerWebAppQueryParams';
+import { SetChatMenuButtonParams } from './typealiases/setChatMenuButtonParams';import { SetMyDefaultAdministratorRightsParams } from './typealiases/setMyDefaultAdministratorRightsParams';
 

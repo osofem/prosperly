@@ -10,7 +10,9 @@ export declare type KeyboardButton = {
     request_contact?: boolean;
     request_location?: boolean;
     request_poll?: KeyboardButtonPollType;
+    web_app?: WebAppInfo;
 };
 export declare type KeyboardButtonPollType = {
     type?: string;
 };
+import { WebAppInfo } from "./webAppInfo";
