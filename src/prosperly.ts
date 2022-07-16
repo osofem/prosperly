@@ -38,7 +38,7 @@ export default class Prosperly extends Events{
      */
     constructor(contents: {botToken: string; webhookParams?: SetWebhookParams; serverless?: boolean}){
         super();
-        this.version = 'v1.3.0'; //this version of prosperly
+        this.version = 'v2.0.0'; //this version of prosperly
         this.#API_URL = "https://api.telegram.org/bot" + contents.botToken + "/";
 
         //setup webhook and server for listening
